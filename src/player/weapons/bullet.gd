@@ -11,10 +11,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	position += velocity * speed * delta
 	
-func _on_Bullet_body_entered(body):
+func _on_bullet_body_entered(body: Node) -> void:
 	if body.is_in_group('enemies'):
 		body.queue_free()
 	queue_free()
-
-
 

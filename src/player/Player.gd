@@ -1,12 +1,13 @@
 extends KinematicBody2D
 
-onready var Bullet = preload("res://src/weapons/bullet.tscn")
+onready var Bullet = preload("res://src/player/weapons/bullet.tscn")
+onready var shotTimer = $ShotTimer
 
 const MAX_SPEED:int = 150
-const ACCELERATION:int = 1250
-const FRICTION:int = 1500
+const ACCELERATION:int = 2500
+const FRICTION:int = 2500
 var velocity = Vector2.DOWN
-
+var just_shot = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -25,9 +26,16 @@ func _physics_process(delta: float) -> void:
 	velocity = move_and_slide(velocity)
 	
 	if Input.is_action_just_pressed("shoot"):
-		spawn_bullet()
+		if just_shot == false:
+			just_shot = true
+			spawn_bullet()
 
 func spawn_bullet():
 	var b = Bullet.instance()
 	b.position = position
 	get_parent().add_child(b)
+	shotTimer.start(0.2)
+
+
+func _on_ShotTimer_timeout() -> void:
+	just_shot = false

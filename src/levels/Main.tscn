@@ -1,15 +1,32 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/player/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://src/Enemies/Enemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/levels/Main.gd" type="Script" id=3]
+[ext_resource path="res://src/levels/EnemySpawner.gd" type="Script" id=4]
 
 [node name="Main" type="Node2D"]
+script = ExtResource( 3 )
 __meta__ = {
-"_edit_vertical_guides_": [ 200.0, 500.0 ]
+"_edit_vertical_guides_": [ 200.0, 520.0 ]
 }
 
-[node name="Enemy" parent="." instance=ExtResource( 2 )]
-position = Vector2( 340, 66 )
-
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 341, 403 )
+position = Vector2( 360, 403 )
+
+[node name="EnemyPositions" type="Node2D" parent="."]
+
+[node name="PositionL" type="Position2D" parent="EnemyPositions"]
+position = Vector2( 240, 6 )
+
+[node name="PositionM" type="Position2D" parent="EnemyPositions"]
+position = Vector2( 360, 6 )
+
+[node name="PositionR" type="Position2D" parent="EnemyPositions"]
+position = Vector2( 480, 6 )
+
+[node name="EventTimer" type="Timer" parent="."]
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource( 4 )
+
+[connection signal="timeout" from="EventTimer" to="." method="_on_EventTimer_timeout"]

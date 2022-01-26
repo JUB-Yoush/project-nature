@@ -33,8 +33,13 @@ func fire_shot():
 	eBullet.position = position
 	eBullet.shot_velocity = shot_velocity
 	get_parent().add_child(eBullet)
-	if shot_count >= 3:
-		shotTimer.stop()
+	if shot_count < 3:
+		shotTimer.start(0.5)
 	
 	
 	
+	
+
+
+func _on_VisibilityNotifier2D_screen_exited() -> void:
+	queue_free()

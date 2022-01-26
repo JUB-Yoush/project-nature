@@ -21,4 +21,8 @@ shape = SubResource( 1 )
 [node name="ShotTimer" type="Timer" parent="."]
 wait_time = 0.2
 
+[node name="WpnTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="timeout" from="ShotTimer" to="." method="_on_ShotTimer_timeout"]
+[connection signal="timeout" from="WpnTimer" to="." method="_on_WpnTimer_timeout"]

@@ -12,3 +12,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	position += shot_velocity * speed * delta
 	
+
+
+func _on_VisibilityNotifier2D_screen_exited() -> void:
+	queue_free()

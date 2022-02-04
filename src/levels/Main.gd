@@ -12,8 +12,7 @@ func _ready() -> void:
 	eventTimer.start(1)
 	
 
-func on_player_pos_requested(enemy):
-	enemy.player_pos = player.position
+
 
 
 

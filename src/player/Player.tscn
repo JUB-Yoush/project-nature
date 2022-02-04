@@ -1,10 +1,59 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Ships/ship_0000.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10, 8.75 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 16, 12.5 )
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 45.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "parry_spin"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 45.0, 125.0, 225.0, 325.0, 0.0 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.25 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "on_parry_animation_ended"
+} ]
+}
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
@@ -13,6 +62,7 @@ script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -2 )
+rotation = 0.785398
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -23,6 +73,17 @@ wait_time = 0.2
 
 [node name="WpnTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="ParryArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParryArea"]
+modulate = Color( 0.478431, 1, 0, 1 )
+position = Vector2( 0, -1.5 )
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 3 )
+anims/parry_spin = SubResource( 4 )
 
 [connection signal="timeout" from="ShotTimer" to="." method="_on_ShotTimer_timeout"]
 [connection signal="timeout" from="WpnTimer" to="." method="_on_WpnTimer_timeout"]

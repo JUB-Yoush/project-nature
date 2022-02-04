@@ -1,6 +1,6 @@
 extends Area2D
 
-var speed = 175
+var speed = 300
 var velocity = Vector2.UP
 
 

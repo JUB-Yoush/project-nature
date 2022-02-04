@@ -2,16 +2,18 @@ extends KinematicBody2D
 
 onready var EBullet = preload("res://src/Enemies/Enemy-Weapons/GoombaBullet.tscn")
 onready var shotTimer = $shotTimer
+
 var speed:int = 125
 var velocity:Vector2 = Vector2.DOWN
-var player_pos = Vector2.ZERO
+var player:KinematicBody2D
 var shot_velocity = Vector2.ZERO
 var shot_count = 0
 
 
-signal request_player_pos(enemy)
+#signal request_player_pos(enemy)
 func _ready() -> void:
-	connect('request_player_pos', get_parent(), "on_player_pos_requested")
+	player = get_parent().get_node('Player')
+	#connect('request_player_pos', get_parent(), "on_player_pos_requested")
 	pass # Replace with function body.
 
 
@@ -27,8 +29,7 @@ func _on_shotTimer_timeout() -> void:
 	fire_shot()
 
 func fire_shot():
-	emit_signal("request_player_pos",self)
-	shot_velocity = position.direction_to(player_pos) * speed
+	shot_velocity = position.direction_to(player.position) * speed
 	var eBullet = EBullet.instance()
 	eBullet.position = position
 	eBullet.shot_velocity = shot_velocity
